@@ -8,6 +8,17 @@ use UnexpectedValueException;
 
 /**
  * Basic class for php enum.
+ *
+ * @method bool hasName($constName)
+ * @method bool hasValue($value, $strict = true)
+ * @method string nameToValue($constName)
+ * @method string valueToName($value)
+ * @method string transName($constName)
+ * @method string transValue($value)
+ * @method array getMap()
+ * @method array|null getNameMap()
+ * @method array getDict()
+ * @method array getNameDict()
  */
 abstract class Enum
 {
@@ -85,7 +96,7 @@ abstract class Enum
 
         // constname -> display text
         foreach ($this->nameMap as $k => $v) {
-            $this->nameDict[$v] = ($this->__statusMap())[$k];
+            $this->nameDict[$v] = array_get($this->__statusMap(), $k);
         }
     }
 
@@ -168,7 +179,7 @@ abstract class Enum
     protected function _transValue($value)
     {
         if ($this->_hasValue($value)) {
-            return ($this->__statusMap())[$value];
+            return array_get($this->__statusMap(), $value);
         }
 
         return $value;
@@ -198,7 +209,7 @@ abstract class Enum
 
     protected function _getDict()
     {
-        return ($this->__statusMap());
+        return $this->__statusMap();
     }
 
     protected function _getNameDict()
